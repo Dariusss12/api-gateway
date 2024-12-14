@@ -3,6 +3,7 @@ using api_gateway.Src.DTOs.User;
 using Grpc.Core;
 using Microsoft.AspNetCore.Mvc;
 using UsersServiceProto;
+using api_gateway.Src.Helpers;
 
 namespace api_gateway.Src.Controllers
 {
@@ -10,7 +11,7 @@ namespace api_gateway.Src.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-         private readonly UserService.UserServiceClient _grpcClient;
+        private readonly UserService.UserServiceClient _grpcClient;
 
         public UserController(UserService.UserServiceClient grpcClient)
         {
@@ -29,8 +30,6 @@ namespace api_gateway.Src.Controllers
                 };
 
                 var grpcResponse = await _grpcClient.GetUserByIdAsync(new Empty(), metadata);
-
-                Console.WriteLine(grpcResponse);
 
                 var httpResponse = new UserDto
                 {
@@ -51,7 +50,7 @@ namespace api_gateway.Src.Controllers
             }
             catch (RpcException ex)
             {
-                return StatusCode(MapGrpcStatusToHttp(ex.StatusCode), ex.Status.Detail);
+                return StatusCode(GrpcStatusToHttp.MapGrpcStatusToHttp(ex.StatusCode), ex.Status.Detail);
             }
         }
 
@@ -95,7 +94,7 @@ namespace api_gateway.Src.Controllers
             catch (RpcException ex)
             {
                 Console.WriteLine(ex);
-                return StatusCode(MapGrpcStatusToHttp(ex.StatusCode), ex.Status.Detail);
+                return StatusCode(GrpcStatusToHttp.MapGrpcStatusToHttp(ex.StatusCode), ex.Status.Detail);
             }
         }
 
@@ -122,7 +121,7 @@ namespace api_gateway.Src.Controllers
             }
             catch (RpcException ex)
             {
-                return StatusCode(MapGrpcStatusToHttp(ex.StatusCode), ex.Status.Detail);
+                return StatusCode(GrpcStatusToHttp.MapGrpcStatusToHttp(ex.StatusCode), ex.Status.Detail);
             }
         }
 
@@ -149,23 +148,10 @@ namespace api_gateway.Src.Controllers
             }
             catch (RpcException ex)
             {
-                return StatusCode(MapGrpcStatusToHttp(ex.StatusCode), ex.Status.Detail);
+                return StatusCode(GrpcStatusToHttp.MapGrpcStatusToHttp(ex.StatusCode), ex.Status.Detail);
             }
         }
 
-        private static int MapGrpcStatusToHttp(StatusCode grpcStatusCode)
-        {
-            return grpcStatusCode switch
-            {
-                Grpc.Core.StatusCode.OK => 200,
-                Grpc.Core.StatusCode.InvalidArgument => 400,
-                Grpc.Core.StatusCode.NotFound => 404,
-                Grpc.Core.StatusCode.PermissionDenied => 403,
-                Grpc.Core.StatusCode.Unauthenticated => 401,
-                Grpc.Core.StatusCode.Internal => 500,
-                _ => 500
-            };
-        }
 
     }
 }

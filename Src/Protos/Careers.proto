@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option csharp_namespace = "CareersProto";
+
+package CareersProto;
+
+service CareerService {
+    rpc GetAllCareers (Empty) returns (CareersResponse);
+}
+
+message Empty {}
+
+message Career{
+    int32 id = 1;
+    string name = 2;
+}
+message CareersResponse {
+    repeated Career careers = 1;
+}
