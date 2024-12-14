@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+option csharp_namespace = "UsersServiceProto";
+
+
+service UserService {
+    rpc GetUserById (Empty) returns (GetUserByIdResponse);
+    rpc EditUser (EditUserRequest) returns (EditUserResponse);
+    rpc GetProgressByUser (Empty) returns (GetProgressByUserResponse);
+    rpc SetUserProgress (SetUserProgressRequest) returns (SetUserProgressResponse);
+}
+
+message Empty {}
+
+message GetUserByIdResponse {
+    int32 id = 1;
+    string name = 2;
+    string firstLastName = 3;
+    string secondLastName = 4;
+    string rut = 5;
+    string email = 6;
+    Career career = 7;
+}
+
+message EditUserRequest {
+    string name = 2;
+    string firstLastName = 3;
+    string secondLastName = 4;
+}
+
+message EditUserResponse {
+    int32 id = 1;
+    string name = 2;
+    string firstLastName = 3;
+    string secondLastName = 4;
+    string rut = 5;
+    string email = 6;
+    Career career = 7;
+}
+
+message GetProgressByUserResponse {
+    repeated UserProgress progress = 1;
+}
+
+message UserProgress {
+    int32 id = 1;
+    string subject_code = 2;
+}
+
+message SetUserProgressRequest {
+    repeated string addSubjects = 2;
+    repeated string deleteSubjects = 3;
+}
+
+message SetUserProgressResponse {
+    bool success = 1;
+}
+
+message Career {
+    int32 id = 1;
+    string name = 2;
+}
