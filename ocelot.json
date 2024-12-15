@@ -34,7 +34,10 @@
                 }
             ],
             "UpstreamPathTemplate": "/api/auth/update-password",
-            "UpstreamHttpMethod": [ "PATCH" ]
+            "UpstreamHttpMethod": [ "PATCH" ],
+            "AddHeadersToRequest": {
+                "Authorization": "Authorization"
+            }
         },
         {
             "DownstreamPathTemplate": "/api/resources/{id}",
