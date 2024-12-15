@@ -32,10 +32,20 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
+app.Use(async (context, next) =>
+{
+    if (context.Request.Path.StartsWithSegments("/api/auth") || context.Request.Path.StartsWithSegments("/api/resources"))
+    {
+        await app.UseOcelot();
+    }
+    else
+    {
+        await next.Invoke();
+    }
+});
+
 app.UseRouting();
 app.MapControllers();
-
-await app.UseOcelot();
 
 app.Run();
 
