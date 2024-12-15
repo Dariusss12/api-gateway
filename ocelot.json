@@ -12,7 +12,6 @@
             "UpstreamPathTemplate": "/api/auth/login",
             "UpstreamHttpMethod": [ "POST" ]
         },
-
         {
             "DownstreamPathTemplate": "/access-api/auth/register",
             "DownstreamScheme": "http",
@@ -25,7 +24,6 @@
             "UpstreamPathTemplate": "/api/auth/register",
             "UpstreamHttpMethod": [ "POST" ]
         },
-
         {
             "DownstreamPathTemplate": "/access-api/auth/update-password",
             "DownstreamScheme": "http",
@@ -37,7 +35,20 @@
             ],
             "UpstreamPathTemplate": "/api/auth/update-password",
             "UpstreamHttpMethod": [ "PATCH" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/resources/{id}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/api/resources/{id}",
+            "UpstreamHttpMethod": [ "GET" ]
         }
+        
 
     ]
 
